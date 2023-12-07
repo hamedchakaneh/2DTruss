@@ -1,0 +1,496 @@
+\documentclass{article}
+\title {Analytical calculation of stiffness and mass matrices as well as natural frequencies of a simple 2D truss element using Finite Element Method}
+\author{HamedChakaneh}
+\date{\today}
+\usepackage{graphicx}
+\usepackage[a4paper, total={8in, 10in}]{geometry}
+\usepackage{amsmath}
+\usepackage{nicematrix,tikz}
+\begin{document}
+\maketitle
+\section{Degrees of freedom}
+Total degrees of freedom=Total number of nodes*Degrees of freedom of each node=$3*2=6$
+\newline Node number 1 degrees of freedom=$\begin{cases}d_{1x}\\d_{1y}\end{cases}$
+\newline Node number 2 degrees of freedom=$\begin{cases}d_{2x}\\d_{2y}\end{cases}$
+\newline Node number 3 degrees of freedom=$\begin{cases}d_{3x}\\d_{3y}\end{cases}$
+\section{Angle}
+    \begin{math}
+    \theta_{\text{Element1}}=\arctan\frac{y_{Node3}-y_{Node1}}{x_{Node3}-   x_{Node1}}=\arctan\frac{0-0}{4-0}=\arctan0\approx0^{\circ}\rightarrow
+        \begin{cases}
+        C=\cos0^{\circ}=1\\
+        S=\sin0^{\circ}=0
+        \end{cases}
+    \newline
+    \theta_{\text{Element2}}=\arctan\frac{y_{Node2}-y_{Node1}}{x_{Node2}-x_{Node1}}=\arctan\frac{3-0}{4-0}=\arctan0.75\approx37^{\circ}\rightarrow
+        \begin{cases}
+        C=\cos37^{\circ}=0.8\\
+        S=\sin37^{\circ}=0.6
+        \end{cases}
+    \end{math}
+\section{Element length}
+    \begin{math}
+    L_{\text{Element1}}=\sqrt{(y_{node3}-y_{node1})^2+(x_{node3}-x_{node1})^2}=\sqrt{(3-0)^2+(4-0)^2}=5
+    \newline
+    L_{\text{Element2}}=\sqrt{(y_{node2}-y_{node1})^2+(x_{node2}-x_{node1})^2}=\sqrt{(0-0)^2+(4-0)^2}=4
+    \end{math}
+\section{Stiffness matrix}
+    \begin{math}
+    k_{\text{Each element}}=\frac{AE}{L}
+        \begin {matrix}
+            \begin {matrix}
+            d_{(n)x} & d_{(n)y} & d_{(n+1)x} & d_{(n+1)y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +C^2&+CS &-C^2&-CS \\
+            +CS &+S^2&-CS &-S^2\\
+            -C^2&-CS &+C^2&+CS \\
+           -CS &-S^2&+CS &+S^2\\
+            \end{bmatrix}
+            \begin{matrix}
+            d_{(n)x}\\
+            d_{(n)y}\\
+            d_{(n+1)x}\\
+            d_{(n+1)y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Element number 1 stiffness matrix}
+    \begin{math}
+        k_{\text{Element1}}=\frac{0.006*210*10^9}{5}
+        \begin {matrix}
+            \begin {matrix}
+            \;d_{1x}&\;\;\;\;\;d_{1y}& \;\;\;\;\;d_{2x}&\;\;\;\;\;d_{2y}\\
+            \end {matrix}\\
+            \begin {bmatrix}
+            +0.64&+0.48&-0.64&-0.48\\
+            +0.48&+0.36&-0.48&-0.36\\
+            -0.64&-0.48&+0.64&+0.48\\
+            -0.48&-0.36&+0.48&+0.36\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            \end{matrix}
+        \end{matrix}
+        \newline
+        =252*10^6
+        \begin {matrix}
+            \begin {matrix}
+            \;d_{1x}&\;\;\;\;\;d_{1y}& \;\;\;\;\;d_{2x}&\;\;\;\;\;d_{2y}\\
+            \end {matrix}\\
+            \begin {bmatrix}
+            +0.64&+0.48&-0.64&-0.48\\
+            +0.48&+0.36&-0.48&-0.36\\
+            -0.64&-0.48&+0.64&+0.48\\
+            -0.48&-0.36&+0.48&+0.36\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Element number 2 stiffness matrix}
+    \begin{math}
+    k_{\text{Element2}}=\frac{0.006*210*10^9}{4}
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&d_{1y}&d_{3x}&d_{3y}\\
+            \end {matrix}\\
+            \begin{bmatrix}
+            +1&0&-1&0\\
+            0&0& 0&0\\
+            -1&0&+1&0\\
+            0&0& 0&0\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        \newline
+        \xrightarrow{\frac{0.006*210*10^9}{4}*\frac{5}{5}=\frac{0.006*210*10^9}{5}*\frac{5}{4}=252*10^6*1.25}k_{\text{Element2}}= 252*10^6
+        \begin{matrix}
+            \begin{matrix}
+            \;\;\;\;\;\;\;d_{1x}&\;\;\;d_{1y}&\;\;\;\;\;d_{3x}&\;\;d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +1*1.25&0&-1*1.25&0\\
+            0      &0&0      &0\\
+            -1*1.25&0&+1*1.25&0\\
+            0      &0&0      &0\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        \newline
+        k_{\text{Element2}}=252*10^6
+        \begin{matrix}
+            \begin{matrix}
+            \;\;\;d_{1x}&\;d_{1y}&\;\;d_{3x}&d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +1.25 & 0 & -1.25 & 0\\
+            0     & 0 & 0     & 0\\
+            -1.25 & 0 & +1.25 & 0\\
+            0     & 0 & 0     & 0\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Total stiffness matrix}
+    \begin{math}
+        K_{\text{Total}}=252*10^6
+        \begin{matrix}
+            \begin{matrix}
+            \;\;\;\;\;\;\;\;\;\;d_{1x}&\;\;\;\;\;\;\;\;\;d_{1y}& \;\;\;\;\;d_{2x}&\;\;\;\;d_{2y}&\;\;\;\;\;d_{3x}&d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +1.25+0.64&+0.48&-0.64&-0.48&-1.25&0\\
+            +0.48     &+0.36&-0.48&-0.36&0    &0\\
+            -0.64     &-0.48&+0.64&+0.48&0    &0\\
+            -0.48     &-0.36&+0.48&+0.36&0    &0\\
+            -1.25     &0    &0    &0    &+1.25&0\\
+            0         &0    &0    &0    &0    &0\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        \newline
+        K_{\text{Total}}=252*10^6
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&d_{1y}&d_{2x}&d_{2y}&d_{3x}&d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +1.89&+0.48&-0.64&-0.48&-1.25&0\\
+            +0.48&+0.36&-0.48&-0.36&0    &0\\
+            -0.64&-0.48&+0.64&+0.48&0    &0\\
+            -0.48&-0.36&+0.48&+0.36&0    &0\\
+            -1.25&0    &0    &0    &+1.25&0\\
+            0    &0    &0    &0    &0    &0\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Reduced stiffness matrix}
+    \begin{math}
+    K_{\text{Total}}=252*10^6
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&d_{1y}&d_{2x}&d_{2y}&d_{3x}&d_{3y}\\
+            \end{matrix}\\
+            \begin{bNiceMatrix}
+            +1.89&+0.48&-0.64&-0.48&-1.25&0\\
+            +0.48&+0.36&-0.48&-0.36&0    &0\\
+            -0.64&-0.48&+0.64&+0.48&0    &0\\
+            -0.48&-0.36&+0.48&+0.36&0    &0\\
+            -1.25&0    &0    &0    &+1.25&0\\
+            0    &0    &0    &0    &0    &0\\
+            \CodeAfter \tikz [blue] \draw
+            (3.5-|1) -- (3.5-|last)
+            (4.5-|1) -- (4.5-|last)
+            (5.5-|1) -- (5.5-|last)
+            (6.5-|1) -- (6.5-|last)
+            (1-|3.5) -- (last-|3.5)
+            (1-|4.5) -- (last-|4.5)
+            (1-|5.5) -- (last-|5.5)
+            (1-|6.5) -- (last-|6.5);
+            \end{bNiceMatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        =252*10^6
+        \begin{matrix}
+            \begin{matrix}
+            \;\;d_{1x}&\;\;d_{1y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +1.89&+0.48\\
+            +0.48&+0.36\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}   
+\section{Mass matrix}
+    \begin{math}
+    m_{\text{Each element}}=\frac{\rho AE}{L}
+        \begin{matrix}
+            \begin{matrix}
+            d_{(n)x} & d_{(n)y} & d_{(n+1)x} & d_{(n+1)y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            2&\;\;\;\;\;0&\;\;\;\;\;1&\;\;\;\;\;0\\
+            0&\;\;\;\;\;2&\;\;\;\;\;0&\;\;\;\;\;1\\
+            1&\;\;\;\;\;0&\;\;\;\;\;2&\;\;\;\;\;0\\
+            0&\;\;\;\;\;1&\;\;\;\;\;0&\;\;\;\;\;2\\
+            \end{bmatrix}
+            \begin{matrix}
+            d_{(n)x}\\
+            d_{(n)y}\\
+            d_{(n+1)x}\\
+            d_{(n+1)y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Element number 1 mass matrix}
+    \begin{math}
+        m_{\text{Element1}}=\frac{7850*0.006*5}{6}
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&d_{1y}& d_{2x}&d_{2y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            2&\;\;\;0&\;\;\;1&\;\;\;0\\
+            0&\;\;\;2&\;\;\;0&\;\;\;1\\
+            1&\;\;\;0&\;\;\;2&\;\;\;0\\
+            0&\;\;\;1&\;\;\;0&\;\;\;2\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            \end{matrix}
+        \end{matrix}
+        =39.25
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&d_{1y}&d_{2x}&d_{2y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            2&\;\;\;0&\;\;\;1&\;\;\;0\\
+            0&\;\;\;2&\;\;\;0&\;\;\;1\\
+            1&\;\;\;0&\;\;\;2&\;\;\;0\\
+            0&\;\;\;1&\;\;\;0&\;\;\;2\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Element number 2 mass matrix}
+    \begin{math}
+    m_{\text{Element2}}=\frac{7850*0.006*4}{6}
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&d_{1y}&d_{3x}&d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            2&\;\;\;0&\;\;\;1&\;\;\;0\\
+            0&\;\;\;2&\;\;\;0&\;\;\;1\\
+            1&\;\;\;0&\;\;\;2&\;\;\;0\\
+            0&\;\;\;1&\;\;\;0&\;\;\;2\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        \newline
+        \xrightarrow{\frac{7850*0.006*4}{6}*\frac{5}{5}=\frac{7850*0.006*5}{6}*\frac{4}{5}=39.25*0.8}m_{\text{Element2}}=39.25
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&\;\;\;\;d_{1y}&\;\;\;\;\;d_{3x}&\;\;\;\;\;d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            2*0.8&0    &1*0.8&0    \\
+            0    &2*0.8&0    &1*0.8\\
+            1*0.8&0    &2*0.8&0    \\
+            0    &1*0.8&0    &2*0.8\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        \newline
+        m_{\text{Element2}}=39.25
+        \begin{matrix}
+            \begin{matrix}
+            d_{1x}&\;\;\;d_{1y}&\;\;\;d_{3x}&\;\;\;d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            1.6&\;\;\;0&\;\;\;0.8&\;\;\;0\\
+            0&\;\;\;1.6&\;\;\;0&\;\;\;0.8\\
+            0.8&\;\;\;0&\;\;\;1.6&\;\;\;0\\
+            0&\;\;\;0.8&\;\;\;0&\;\;\;1.6\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Total mass matrix}
+    \begin{math}
+        M_{\text{Total}}=39.25
+        \begin{matrix}
+            \begin{matrix}
+            \;\;\;\;\;d_{1x}&\;\;\;\;\;\;\;d_{1y}& \;\;\;\;d_{2x}&\;\;d_{2y}&\;\;d_{3x}&\;\;d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +2+1.6& 0    &+1& 0&+0.8& 0  \\
+             0    &+2+1.6& 0&+1& 0  &+0.8\\
+            +1    & 0    &+2& 0&+1  & 0  \\
+             0    &+1    & 0& 0& 0  &+1  \\
+            +0.8  & 0    &+1& 0&+1.6& 0  \\
+             0    &+0.8  & 0&+1& 0  &+1.6\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        =39.25
+        \begin{matrix}
+            \begin{matrix}
+            \;\;d_{1x}&\;\;d_{1y}&\;\;d_{2x}&\;\;d_{2y}&\;\;d_{3x}&\;\;d_{3y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +3.6& 0   &+1& 0&+0.8& 0  \\
+             0  &+0.36& 0&+1& 0  &+0.8\\
+            +1  & 0   &+2& 0& 0  & 0  \\
+             0  &+1   & 0&+2& 0  & 0  \\
+            +0.8& 0   & 0& 0&+1.6& 0  \\
+             0  &+0.8 & 0& 0& 0  &+1.6\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\subsection{Reduced mass matrix}
+    \begin{math}
+    M_{\text{Total}}=39.25
+        \begin{matrix}
+            \begin{matrix}
+            \;\;d_{1x}&\;\;d_{1y}&\;\;d_{2x}&\;\;d_{2y}&\;\;d_{3x}&\;\;d_{3y}\\
+            \end{matrix}\\
+            \begin{bNiceMatrix}
+            +3.6& 0   &+1& 0&+0.8& 0  \\
+             0  &+0.36& 0&+1& 0  &+0.8\\
+            +1  & 0   &+2& 0& 0  & 0  \\
+             0  &+1   & 0&+2& 0  & 0  \\
+            +0.8& 0   & 0& 0&+1.6& 0  \\
+             0  &+0.8 & 0& 0& 0  &+1.6\\
+            \CodeAfter \tikz [blue] \draw
+            (3.5-|1) -- (3.5-|last)
+            (4.5-|1) -- (4.5-|last)
+            (5.5-|1) -- (5.5-|last)
+            (6.5-|1) -- (6.5-|last)
+            (1-|3.5) -- (last-|3.5)
+            (1-|4.5) -- (last-|4.5)
+            (1-|5.5) -- (last-|5.5)
+            (1-|6.5) -- (last-|6.5);
+            \end{bNiceMatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            d_{2x}\\
+            d_{2y}\\
+            d_{3x}\\
+            d_{3y}\\
+            \end{matrix}
+        \end{matrix}
+        =39.25
+        \begin{matrix}
+            \begin{matrix}
+            \;\;d_{1x}&\;\;d_{1y}\\
+            \end{matrix}\\
+            \begin{bmatrix}
+            +3.6& 0   \\
+             0  &+0.36\\
+            \end{bmatrix}&
+            \begin{matrix}
+            d_{1x}\\
+            d_{1y}\\
+            \end{matrix}
+        \end{matrix}
+    \end{math}
+\section{Natural frequency}
+    \begin{math}
+        \begin{vmatrix}
+        K-\omega^2M
+        \end{vmatrix}=0
+        \newline
+        \begin{vmatrix}
+            252*10^6
+            \begin{bmatrix}
+            1.89 & 0.48\\
+            0.48 & 0.36
+            \end{bmatrix}
+            -39.25\omega^2
+            \begin{bmatrix}
+            2 & 0\\
+            0 & 2
+            \end{bmatrix}
+        \end{vmatrix}=0
+        \rightarrow \omega^2=
+        \begin{cases}
+        395710.27\\
+        3617028.57
+        \end{cases}
+        \newline
+        \xrightarrow{Frequency=\frac{\sqrt{\omega^2}}{2\pi}}=
+        \begin{cases}
+        Frequency_{Number1}=\frac{\sqrt{395710.27}}{2\pi}=100.11\\
+        Frequency_{Number2}=\frac{\sqrt{3617028.57}}{2\pi}=302.68
+        \end{cases}
+    \end{math}
+\end{document}
